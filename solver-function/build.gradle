@@ -1,0 +1,7 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'dev.flanker'
+version '1.0-SNAPSHOT'

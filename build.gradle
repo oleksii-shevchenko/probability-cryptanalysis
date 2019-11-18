@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'dev.flanker'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
