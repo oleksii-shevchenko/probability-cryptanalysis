@@ -21,4 +21,13 @@ public class EntropyCriteria implements TextCriteria {
     public static EntropyCriteria getCriteria(String text, double bias, int ngram) {
         return new EntropyCriteria(FrequencyUtil.entropy(text, ngram), bias, ngram);
     }
+
+    @Override
+    public String toString() {
+        return "EntropyCriteria{" +
+                "entropy=" + entropy +
+                ", bias=" + bias +
+                ", ngram=" + ngram +
+                '}';
+    }
 }

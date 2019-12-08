@@ -24,15 +24,23 @@ public class FrequentNgramCriteria implements TextCriteria {
                 marked.add(target);
             }
             if (marked.size() == frequentNgram.size()) {
-                return true;
+                return false;
             }
         }
-        return marked.size() == frequentNgram.size();
+        return marked.size() != frequentNgram.size();
     }
 
     public static FrequentNgramCriteria getCriteria(String text, int ngram, int frequent) {
         Set<String> forbiddenNgram = OrderingUtil.head(FrequencyUtil.frequencies(text, ngram), frequent);
 
         return new FrequentNgramCriteria(forbiddenNgram, ngram);
+    }
+
+    @Override
+    public String toString() {
+        return "FrequentNgramCriteria{" +
+                "frequentNgram=" + frequentNgram +
+                ", ngram=" + ngram +
+                '}';
     }
 }

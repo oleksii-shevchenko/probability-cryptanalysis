@@ -19,7 +19,7 @@ public class ForbiddenNgramFrequenciesCriteria implements TextCriteria {
         return FrequencyUtil.frequencies(text, ngram, forbiddenFrequencies.keySet())
                 .entrySet()
                 .stream()
-                .noneMatch(entry -> entry.getValue() > forbiddenFrequencies.get(entry.getKey()));
+                .allMatch(entry -> entry.getValue() > forbiddenFrequencies.get(entry.getKey()));
 
     }
 
@@ -27,5 +27,13 @@ public class ForbiddenNgramFrequenciesCriteria implements TextCriteria {
         Map<String, Double> forbiddenFrequencies = OrderingUtil.tailMap(FrequencyUtil.frequencies(text, ngram), forbidden);
 
         return new ForbiddenNgramFrequenciesCriteria(forbiddenFrequencies, ngram);
+    }
+
+    @Override
+    public String toString() {
+        return "ForbiddenNgramFrequenciesCriteria{" +
+                "forbiddenFrequencies=" + forbiddenFrequencies +
+                ", ngram=" + ngram +
+                '}';
     }
 }

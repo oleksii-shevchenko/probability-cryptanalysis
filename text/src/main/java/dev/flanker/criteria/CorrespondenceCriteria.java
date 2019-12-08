@@ -21,4 +21,13 @@ public class CorrespondenceCriteria implements TextCriteria {
     public static CorrespondenceCriteria getCriteria(String text, double bias, int ngram) {
         return new CorrespondenceCriteria(FrequencyUtil.correspondenceIndex(text, ngram), bias, ngram);
     }
+
+    @Override
+    public String toString() {
+        return "CorrespondenceCriteria{" +
+                "correspondenceIndex=" + correspondenceIndex +
+                ", bias=" + bias +
+                ", ngram=" + ngram +
+                '}';
+    }
 }

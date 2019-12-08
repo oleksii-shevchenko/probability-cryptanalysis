@@ -3,11 +3,8 @@ package dev.flanker.criteria;
 import dev.flanker.util.FrequencyUtil;
 import dev.flanker.util.OrderingUtil;
 
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ExtendedForbiddenNgramCriteria implements TextCriteria {
     private final Set<String> forbiddenNgram;
@@ -31,15 +28,24 @@ public class ExtendedForbiddenNgramCriteria implements TextCriteria {
             }
 
             if (marked.size() >= critical) {
-                return false;
+                return true;
             }
         }
-        return marked.size() < critical;
+        return marked.size() >= critical;
     }
 
     public static ExtendedForbiddenNgramCriteria getCriteria(String text, int ngram, int forbidden, int critical) {
         Set<String> forbiddenNgram = OrderingUtil.tail(FrequencyUtil.frequencies(text, ngram), forbidden);
 
         return new ExtendedForbiddenNgramCriteria(forbiddenNgram, ngram, critical);
+    }
+
+    @Override
+    public String toString() {
+        return "ExtendedForbiddenNgramCriteria{" +
+                "forbiddenNgram=" + forbiddenNgram +
+                ", ngram=" + ngram +
+                ", critical=" + critical +
+                '}';
     }
 }

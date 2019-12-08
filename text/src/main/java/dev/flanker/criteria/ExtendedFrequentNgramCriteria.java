@@ -26,16 +26,25 @@ public class ExtendedFrequentNgramCriteria implements TextCriteria {
             if (frequentNgram.contains(target)) {
                 marked.add(target);
             }
-            if (frequentNgram.size() - marked.size() < critical) {
-                return true;
+            if (marked.size() >= critical) {
+                return false;
             }
         }
-        return frequentNgram.size() - marked.size() < critical;
+        return marked.size() >= critical;
     }
 
     public static ExtendedFrequentNgramCriteria getCriteria(String text, int ngram, int frequent, int critical) {
         Set<String> forbiddenNgram = OrderingUtil.head(FrequencyUtil.frequencies(text, ngram), frequent);
 
         return new ExtendedFrequentNgramCriteria(forbiddenNgram, ngram, critical);
+    }
+
+    @Override
+    public String toString() {
+        return "ExtendedFrequentNgramCriteria{" +
+                "frequentNgram=" + frequentNgram +
+                ", ngram=" + ngram +
+                ", critical=" + critical +
+                '}';
     }
 }

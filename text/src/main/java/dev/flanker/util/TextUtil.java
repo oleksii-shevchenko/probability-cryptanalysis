@@ -1,11 +1,22 @@
 package dev.flanker.util;
 
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TextUtil {
+public final class TextUtil {
     private static final int A_SHIFT = 97;
     private static final int ENGLISH_ALPHABET_SIZE = 26;
+
+    private TextUtil() { }
+
+    public static String normalize(String origin, int factor) {
+        return origin.substring(0, origin.length() - (origin.length() % factor));
+    }
+
+    public static String sample(String origin, int length) {
+        int offset = ThreadLocalRandom.current().nextInt(origin.length() - length);
+        return origin.substring(offset, offset + length);
+    }
+
 
     public static String vigenereEncryption(String text, String key) {
         StringBuilder builder = new StringBuilder(text.length());
@@ -61,6 +72,12 @@ public class TextUtil {
             second = z;
         }
         return builder.toString();
+    }
+
+    public static String recursiveSequence(int size, int ngram) {
+        int x = ThreadLocalRandom.current().nextInt(pow(ENGLISH_ALPHABET_SIZE, ngram));
+        int y = ThreadLocalRandom.current().nextInt(pow(ENGLISH_ALPHABET_SIZE, ngram));
+        return recursiveSequence(size, ngram, x, y);
     }
 
     private static int normalize(int c) {

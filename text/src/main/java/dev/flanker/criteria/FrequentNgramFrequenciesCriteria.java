@@ -28,4 +28,12 @@ public class FrequentNgramFrequenciesCriteria implements TextCriteria {
 
         return new FrequentNgramFrequenciesCriteria(forbiddenFrequencies, ngram);
     }
+
+    @Override
+    public String toString() {
+        return "FrequentNgramFrequenciesCriteria{" +
+                "headFrequencies=" + headFrequencies +
+                ", ngram=" + ngram +
+                '}';
+    }
 }
