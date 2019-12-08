@@ -6,6 +6,10 @@ plugins {
 group 'dev.flanker'
 version '1.0-SNAPSHOT'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
 }
