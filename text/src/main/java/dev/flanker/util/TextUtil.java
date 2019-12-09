@@ -1,23 +1,20 @@
 package dev.flanker.util;
 
+import static dev.flanker.util.ComputeUtil.ENGLISH_ALPHABET_SIZE;
+import static dev.flanker.util.ComputeUtil.denormalize;
+import static dev.flanker.util.ComputeUtil.normalize;
+import static dev.flanker.util.ComputeUtil.pow;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class TextUtil {
-    private static final int A_SHIFT = 97;
-    private static final int ENGLISH_ALPHABET_SIZE = 26;
-
     private TextUtil() { }
-
-    public static String normalize(String origin, int factor) {
-        return origin.substring(0, origin.length() - (origin.length() % factor));
-    }
 
     public static String sample(String origin, int length) {
         int offset = ThreadLocalRandom.current().nextInt(origin.length() - length);
         return origin.substring(offset, offset + length);
     }
-
-
+    
     public static String vigenereEncryption(String text, String key) {
         StringBuilder builder = new StringBuilder(text.length());
         for (int i = 0; i < text.length(); i++) {
@@ -62,15 +59,17 @@ public final class TextUtil {
     public static String recursiveSequence(int size, int ngram, int x, int y) {
         StringBuilder builder = new StringBuilder(size);
         int module = pow(ENGLISH_ALPHABET_SIZE, ngram);
-        int first = x;
-        int second = y;
+
+        int s_0 = x;
+        int s_1 = y;
         for (int i = 0; i < size; i += ngram) {
-            int z = (x + y) % module;
+            int z = (s_0 + s_1) % module;
             decompress(builder, z, ngram);
 
-            first = second;
-            second = z;
+            s_0 = s_1;
+            s_1 = z;
         }
+
         return builder.toString();
     }
 
@@ -80,17 +79,13 @@ public final class TextUtil {
         return recursiveSequence(size, ngram, x, y);
     }
 
-    private static int normalize(int c) {
-        return (c - A_SHIFT) % ENGLISH_ALPHABET_SIZE;
-    }
-
-    private static char denormalize(int c) {
-        return (char) ((c % ENGLISH_ALPHABET_SIZE) + A_SHIFT);
+    public static String truncate(String text, int divisionFactor) {
+        return text.substring(0, text.length() - (text.length() % divisionFactor));
     }
 
     private static int compress(String text, int offset, int ngram) {
         int compressed = normalize(text.charAt(offset));
-        for (int i = 0; i < (ngram - 1); i++) {
+        for (int i = 1; i < ngram; i++) {
             compressed = compressed * ENGLISH_ALPHABET_SIZE + normalize(text.charAt(offset + i));
         }
         return compressed;
@@ -99,13 +94,9 @@ public final class TextUtil {
     private static void decompress(StringBuilder builder, int compressed, int ngram) {
         String appending = "";
         for (int i = 0; i < ngram; i++) {
-            appending = denormalize((char) compressed % ENGLISH_ALPHABET_SIZE) + appending;
+            appending = denormalize((char) (compressed % ENGLISH_ALPHABET_SIZE)) + appending;
             compressed = compressed / ENGLISH_ALPHABET_SIZE;
         }
         builder.append(appending);
-    }
-
-    private static int pow(int x, int y) {
-        return (int) Math.pow(x, y);
     }
 }

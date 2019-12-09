@@ -1,0 +1,32 @@
+# Intellij
+.idea/
+*.iml
+*.iws
+atlassian-ide-plugin.xml
+out/
+*/out
+classes/
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+/logs
+*/logs
+build/
+*/build
+**/src/generated
+
+#local encryption key.
+src/main/resources/encryption/local_key.txt
+
+.gradle/
+bin/

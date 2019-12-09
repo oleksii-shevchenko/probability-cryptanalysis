@@ -19,7 +19,7 @@ public class ExtendedFrequentNgramFrequenciesCriteria implements TextCriteria {
 
     @Override
     public boolean isRandom(String text) {
-        return critical < FrequencyUtil.frequencies(text, ngram, headFrequencies.keySet())
+        return critical > FrequencyUtil.frequencies(text, ngram, headFrequencies.keySet())
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue() < headFrequencies.get(entry.getKey()))

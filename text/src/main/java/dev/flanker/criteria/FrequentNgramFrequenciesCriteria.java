@@ -19,7 +19,7 @@ public class FrequentNgramFrequenciesCriteria implements TextCriteria {
         return FrequencyUtil.frequencies(text, ngram, headFrequencies.keySet())
                 .entrySet()
                 .stream()
-                .noneMatch(entry -> entry.getValue() < headFrequencies.get(entry.getKey()));
+                .allMatch(entry -> entry.getValue() < headFrequencies.get(entry.getKey()));
 
     }
 

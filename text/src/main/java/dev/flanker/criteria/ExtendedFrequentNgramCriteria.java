@@ -30,7 +30,7 @@ public class ExtendedFrequentNgramCriteria implements TextCriteria {
                 return false;
             }
         }
-        return marked.size() >= critical;
+        return marked.size() < critical;
     }
 
     public static ExtendedFrequentNgramCriteria getCriteria(String text, int ngram, int frequent, int critical) {
