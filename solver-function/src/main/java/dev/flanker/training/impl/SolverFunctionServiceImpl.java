@@ -1,18 +1,18 @@
 package dev.flanker.training.impl;
 
 import dev.flanker.domain.*;
-import dev.flanker.probability.CiphertextProbabilityService;
+import dev.flanker.probability.ProbabilityService;
 import dev.flanker.training.SolverFunctionService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SolverFunctionServiceImpl implements SolverFunctionService {
-    public static final double MAX_PROBABILITY_BIAS = 0.005;
+    public static final double MAX_PROBABILITY_BIAS = 0.125;
 
-    private final CiphertextProbabilityService probabilityService;
+    private final ProbabilityService probabilityService;
 
-    public SolverFunctionServiceImpl(CiphertextProbabilityService probabilityService) {
+    public SolverFunctionServiceImpl(ProbabilityService probabilityService) {
         this.probabilityService = probabilityService;
     }
 
@@ -59,17 +59,18 @@ public class SolverFunctionServiceImpl implements SolverFunctionService {
     }
 
     private void buildRowMapping(double[] mapping, int ciphertext, ConditionalProbabilityDistribution conditional) {
-        List<Integer> indexes = new ArrayList<>();
+        Map<Integer, Double> indexes = new HashMap<>();
 
+        double norm = 0.0;
         double maxProbability = maxConditionalProbability(conditional, ciphertext);
         for (int i = 0; i < Config.MESSAGES_SPACE_SIZE; i++) {
             if (Math.abs(maxProbability - conditional.getConditional(i, ciphertext)) < MAX_PROBABILITY_BIAS) {
-                indexes.add(i);
+                indexes.put(i, conditional.getConditional(i, ciphertext));
+                norm += conditional.getConditional(i, ciphertext);
             }
         }
-
-        for (Integer index : indexes) {
-            mapping[index] = (1.0 / indexes.size());
+        for (Map.Entry<Integer, Double> entry : indexes.entrySet()) {
+            mapping[entry.getKey()] = entry.getValue() / norm;
         }
     }
 

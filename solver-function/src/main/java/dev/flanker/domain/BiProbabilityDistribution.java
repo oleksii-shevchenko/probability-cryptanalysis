@@ -12,4 +12,8 @@ public class BiProbabilityDistribution {
     public double getProbability(int x, int y) {
         return distribution[x][y];
     }
+
+    public double[][] getDistribution() {
+        return ArrayUtil.copy(distribution);
+    }
 }

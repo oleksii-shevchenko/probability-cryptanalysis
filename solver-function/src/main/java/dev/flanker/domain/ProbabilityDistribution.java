@@ -12,4 +12,8 @@ public class ProbabilityDistribution {
     public double getProbability(int index) {
         return distribution[index];
     }
+
+    public double[] getDistribution() {
+        return ArrayUtil.copy(distribution);
+    }
 }

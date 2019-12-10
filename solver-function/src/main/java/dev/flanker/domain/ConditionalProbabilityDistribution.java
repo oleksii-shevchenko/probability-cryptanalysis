@@ -12,5 +12,9 @@ public class ConditionalProbabilityDistribution {
     public double getConditional(int eventIndex, int conditionIndex) {
         return distribution[eventIndex][conditionIndex];
     }
+
+    public double[][] getDistribution() {
+        return ArrayUtil.copy(distribution);
+    }
 }
 

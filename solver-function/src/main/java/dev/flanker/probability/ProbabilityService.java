@@ -4,7 +4,7 @@ import dev.flanker.domain.BiProbabilityDistribution;
 import dev.flanker.domain.ConditionalProbabilityDistribution;
 import dev.flanker.domain.ProbabilityDistribution;
 
-public interface CiphertextProbabilityService {
+public interface ProbabilityService {
     ProbabilityDistribution computeAbsolute(ProbabilityDistribution messages, ProbabilityDistribution keys);
 
     BiProbabilityDistribution computeBiAbsolute(ProbabilityDistribution messages, ProbabilityDistribution keys);

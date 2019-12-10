@@ -8,7 +8,6 @@ public class CorrespondenceCriteria implements TextCriteria {
     private final int ngram;
 
     private CorrespondenceCriteria(double correspondenceIndex, double bias, int ngram) {
-        System.out.println("index " + correspondenceIndex);
         this.correspondenceIndex = correspondenceIndex;
         this.bias = bias;
         this.ngram = ngram;
@@ -16,9 +15,7 @@ public class CorrespondenceCriteria implements TextCriteria {
 
     @Override
     public boolean isRandom(String text) {
-        double abs = Math.abs(FrequencyUtil.correspondenceIndex(text, ngram) - correspondenceIndex);
-        System.out.println(abs);
-        return abs > bias;
+        return Math.abs(FrequencyUtil.correspondenceIndex(text, ngram) - correspondenceIndex) > bias;
     }
 
     public static CorrespondenceCriteria getCriteria(String text, double bias, int ngram) {

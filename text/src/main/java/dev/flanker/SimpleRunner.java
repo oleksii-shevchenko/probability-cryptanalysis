@@ -47,8 +47,6 @@ public class SimpleRunner {
         Map<String, String> textMap = textMap(text);
 
         for (Map.Entry<Integer, Integer> runConfig : RUNS_MAP.entrySet()) {
-            System.out.println(runConfig.getKey() + " Started");
-
             StringBuilder csv = new StringBuilder("Criteria,");
             for (Map.Entry<String, String> entry : textMap.entrySet()) {
                 csv.append(entry.getKey()).append(",");
@@ -62,7 +60,6 @@ public class SimpleRunner {
                     csv.append(passedRatio(criteriaEntry.getValue(), textEntry.getValue(), runConfig.getKey(), runConfig.getValue())).append(",");
                 }
                 replaceLast(csv, '\n');
-                System.out.println(criteriaEntry.getKey() + " Finished");
             }
 
             TextCriteria textCriteria = correspondence.get(runConfig.getKey());
@@ -73,8 +70,6 @@ public class SimpleRunner {
             replaceLast(csv, '\n');
 
             FileUtil.write(csv.toString(), "data\\stat_" + runConfig.getKey() + ".csv");
-
-            System.out.println(runConfig.getKey() + " Finished");
         }
     }
 

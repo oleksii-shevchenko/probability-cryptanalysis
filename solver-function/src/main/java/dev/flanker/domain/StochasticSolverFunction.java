@@ -36,4 +36,8 @@ public class StochasticSolverFunction {
         }
         return Config.MESSAGES_SPACE_SIZE - 1;
     }
+
+    public double[][] getMapping() {
+        return ArrayUtil.copy(stochasticMapping);
+    }
 }

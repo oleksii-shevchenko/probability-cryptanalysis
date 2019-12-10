@@ -12,4 +12,8 @@ public class DeterministicSolverFunction {
     public int solve(int ciphertextIndex) {
         return mapping[ciphertextIndex];
     }
+
+    public int[] getMapping() {
+        return ArrayUtil.copy(mapping);
+    }
 }

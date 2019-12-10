@@ -4,13 +4,13 @@ import dev.flanker.domain.BiProbabilityDistribution;
 import dev.flanker.domain.ConditionalProbabilityDistribution;
 import dev.flanker.domain.Config;
 import dev.flanker.domain.ProbabilityDistribution;
-import dev.flanker.probability.CiphertextProbabilityService;
+import dev.flanker.probability.ProbabilityService;
 import dev.flanker.probability.IndexedEncryptionService;
 
-public class CiphertextProbabilityServiceImpl implements CiphertextProbabilityService {
+public class ProbabilityServiceImpl implements ProbabilityService {
     private final IndexedEncryptionService encryptionService;
 
-    public CiphertextProbabilityServiceImpl(IndexedEncryptionService encryptionService) {
+    public ProbabilityServiceImpl(IndexedEncryptionService encryptionService) {
         this.encryptionService = encryptionService;
     }
 
