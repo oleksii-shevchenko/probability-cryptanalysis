@@ -1,10 +1,10 @@
 package dev.flanker.criteria;
 
-import dev.flanker.util.FrequencyUtil;
-import dev.flanker.util.OrderingUtil;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import dev.flanker.domain.Alphabet;
+import dev.flanker.util.TextUtil;
 
 public class FrequentNgramCriteria implements TextCriteria {
     private final Set<String> frequentNgram;
@@ -30,9 +30,8 @@ public class FrequentNgramCriteria implements TextCriteria {
         return marked.size() != frequentNgram.size();
     }
 
-    public static FrequentNgramCriteria getCriteria(String text, int ngram, int frequent) {
-        Set<String> forbiddenNgram = OrderingUtil.head(FrequencyUtil.frequencies(text, ngram), frequent);
-
+    public static FrequentNgramCriteria getCriteria(String text, int ngram, int frequent, Alphabet alphabet) {
+        Set<String> forbiddenNgram = TextUtil.head(TextUtil.frequencies(text, ngram, alphabet), frequent);
         return new FrequentNgramCriteria(forbiddenNgram, ngram);
     }
 

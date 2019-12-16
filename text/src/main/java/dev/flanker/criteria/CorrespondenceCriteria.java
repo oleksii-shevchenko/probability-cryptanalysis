@@ -1,33 +1,51 @@
 package dev.flanker.criteria;
 
-import dev.flanker.util.FrequencyUtil;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+
+import dev.flanker.domain.Alphabet;
+import dev.flanker.util.FileUtil;
+import dev.flanker.util.TextUtil;
 
 public class CorrespondenceCriteria implements TextCriteria {
-    private final double correspondenceIndex;
-    private final double bias;
+    private final Map<Integer, Double> correspondenceIndex;
+    private final Map<Integer, Double> bias;
+    private final Alphabet alphabet;
     private final int ngram;
 
-    private CorrespondenceCriteria(double correspondenceIndex, double bias, int ngram) {
+    private CorrespondenceCriteria(Map<Integer, Double> correspondenceIndex, Map<Integer, Double> bias, Alphabet alphabet, int ngram) {
         this.correspondenceIndex = correspondenceIndex;
         this.bias = bias;
+        this.alphabet = alphabet;
         this.ngram = ngram;
     }
 
     @Override
     public boolean isRandom(String text) {
-        return Math.abs(FrequencyUtil.correspondenceIndex(text, ngram) - correspondenceIndex) > bias;
+        int length = text.length();
+        if (correspondenceIndex.containsKey(length)) {
+            return Math.abs(TextUtil.correspondenceIndex(text, ngram, alphabet) - correspondenceIndex.get(length)) > bias.get(length);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
-    public static CorrespondenceCriteria getCriteria(String text, double bias, int ngram) {
-        return new CorrespondenceCriteria(FrequencyUtil.correspondenceIndex(text, ngram), bias, ngram);
+    public static CorrespondenceCriteria getCriteria(String text, int ngram, Map<Integer, Double> bias, Alphabet alphabet) {
+        Map<Integer, Double> correspondenceIndex = bias.keySet()
+                .stream()
+                .collect(Collectors.toMap(key -> key, key -> TextUtil.correspondenceIndex(FileUtil.sample(text, key), ngram, alphabet)));
+        return new CorrespondenceCriteria(correspondenceIndex, new HashMap<>(bias), alphabet, ngram);
     }
 
     @Override
     public String toString() {
-        return "CorrespondenceCriteria{" +
-                "correspondenceIndex=" + correspondenceIndex +
-                ", bias=" + bias +
-                ", ngram=" + ngram +
-                '}';
+        return new StringJoiner(", ", CorrespondenceCriteria.class.getSimpleName() + "[", "]")
+                .add("correspondenceIndex=" + correspondenceIndex)
+                .add("bias=" + bias)
+                .add("alphabet=" + alphabet)
+                .add("ngram=" + ngram)
+                .toString();
     }
 }

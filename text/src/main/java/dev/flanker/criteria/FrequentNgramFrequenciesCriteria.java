@@ -1,9 +1,9 @@
 package dev.flanker.criteria;
 
-import dev.flanker.util.FrequencyUtil;
-import dev.flanker.util.OrderingUtil;
-
 import java.util.Map;
+
+import dev.flanker.domain.Alphabet;
+import dev.flanker.util.TextUtil;
 
 public class FrequentNgramFrequenciesCriteria implements TextCriteria {
     private final Map<String, Double> headFrequencies;
@@ -16,15 +16,15 @@ public class FrequentNgramFrequenciesCriteria implements TextCriteria {
 
     @Override
     public boolean isRandom(String text) {
-        return FrequencyUtil.frequencies(text, ngram, headFrequencies.keySet())
+        return TextUtil.frequencies(text, ngram, headFrequencies.keySet())
                 .entrySet()
                 .stream()
                 .allMatch(entry -> entry.getValue() < headFrequencies.get(entry.getKey()));
 
     }
 
-    public static FrequentNgramFrequenciesCriteria getCriteria(String text, int ngram, int frequent) {
-        Map<String, Double> forbiddenFrequencies = OrderingUtil.headMap(FrequencyUtil.frequencies(text, ngram), frequent);
+    public static FrequentNgramFrequenciesCriteria getCriteria(String text, int ngram, int frequent, Alphabet alphabet) {
+        Map<String, Double> forbiddenFrequencies = TextUtil.headMap(TextUtil.frequencies(text, ngram, alphabet), frequent);
 
         return new FrequentNgramFrequenciesCriteria(forbiddenFrequencies, ngram);
     }

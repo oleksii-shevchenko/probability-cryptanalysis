@@ -1,14 +1,19 @@
 package dev.flanker.training.impl;
 
-import dev.flanker.domain.*;
-import dev.flanker.probability.ProbabilityService;
-import dev.flanker.training.SolverFunctionService;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.flanker.domain.BiProbabilityDistribution;
+import dev.flanker.domain.ConditionalProbabilityDistribution;
+import dev.flanker.domain.Config;
+import dev.flanker.domain.DeterministicSolverFunction;
+import dev.flanker.domain.ProbabilityDistribution;
+import dev.flanker.domain.StochasticSolverFunction;
+import dev.flanker.probability.ProbabilityService;
+import dev.flanker.training.SolverFunctionService;
+
 public class SolverFunctionServiceImpl implements SolverFunctionService {
-    public static final double MAX_PROBABILITY_BIAS = 0.125;
+    public static final double MAX_PROBABILITY_BIAS = 0.001;
 
     private final ProbabilityService probabilityService;
 

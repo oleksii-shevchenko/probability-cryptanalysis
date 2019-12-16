@@ -1,102 +1,120 @@
 package dev.flanker.util;
 
-import static dev.flanker.util.ComputeUtil.ENGLISH_ALPHABET_SIZE;
-import static dev.flanker.util.ComputeUtil.denormalize;
-import static dev.flanker.util.ComputeUtil.normalize;
-import static dev.flanker.util.ComputeUtil.pow;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import java.util.concurrent.ThreadLocalRandom;
+import dev.flanker.domain.Alphabet;
 
 public final class TextUtil {
     private TextUtil() { }
 
-    public static String sample(String origin, int length) {
-        int offset = ThreadLocalRandom.current().nextInt(origin.length() - length);
-        return origin.substring(offset, offset + length);
-    }
-    
-    public static String vigenereEncryption(String text, String key) {
-        StringBuilder builder = new StringBuilder(text.length());
-        for (int i = 0; i < text.length(); i++) {
-            int encoded = (normalize(text.charAt(i)) + normalize(key.charAt(i % key.length()))) % ENGLISH_ALPHABET_SIZE;
-            builder.append(denormalize(encoded));
+    public static Map<String, Double> frequencies(String text, int ngram, Alphabet alphabet) {
+        Map<String, Long> countsMap = init(alphabet, ngram);
+        for (int i = 0; i < text.length() - ngram + 1; i += ngram) {
+            String substr = text.substring(i, i + ngram);
+            countsMap.put(substr, countsMap.getOrDefault(substr, 0L) + 1L);
         }
-        return builder.toString();
+        return getStringDoubleMap(text.length(), ngram, countsMap);
     }
 
-    public static String vigenereEncryption(String text, int r) {
-        StringBuilder key = new StringBuilder(r);
-        for (int i = 0; i < r; i++) {
-            key.append(denormalize(ThreadLocalRandom.current().nextInt(ENGLISH_ALPHABET_SIZE)));
+    public static Map<String, Double> frequencies(String text, int ngram, Set<String> ngramSet) {
+        Map<String, Long> countsMap = new HashMap<>();
+        for (String target : ngramSet) {
+            countsMap.put(target, 0L);
         }
-        return vigenereEncryption(text, key.toString());
-    }
-
-    public static String affineEncryption(String text, int ngram, int a, int b) {
-        StringBuilder builder = new StringBuilder(text.length());
-        int module = pow(ENGLISH_ALPHABET_SIZE, ngram);
-        for (int i = 0; i < text.length(); i += ngram) {
-            int c = (a * compress(text, i, ngram) + b) % module;
-            decompress(builder, c, ngram);
+        for (int i = 0; i < text.length() - ngram + 1; i += ngram) {
+            String substr = text.substring(i, i + ngram);
+            if (ngramSet.contains(substr)) {
+                countsMap.put(substr, countsMap.getOrDefault(substr, 0L) + 1L);
+            }
         }
-        return builder.toString();
+        return getStringDoubleMap(text.length(), ngram, countsMap);
     }
 
-    public static String affineEncryption(String text, int ngram) {
-        int a = ThreadLocalRandom.current().nextInt(pow(ENGLISH_ALPHABET_SIZE, ngram));
-        int b = ThreadLocalRandom.current().nextInt(pow(ENGLISH_ALPHABET_SIZE, ngram));
-        return  affineEncryption(text, ngram, a, b);
-    }
-
-    public static String randomSequence(int size) {
-        StringBuilder builder = new StringBuilder(size);
-        for (int i = 0; i < size; i++) {
-            builder.append(denormalize(ThreadLocalRandom.current().nextInt(ENGLISH_ALPHABET_SIZE)));
+    public static double entropy(String text, int ngram, Alphabet alphabet) {
+        double entr = 0.0;
+        for (Double frequency : frequencies(text, ngram, alphabet).values()) {
+            if (frequency != 0.0) {
+                entr += (frequency * ComputeUtil.log(frequency));
+            }
         }
-        return builder.toString();
+        return -entr / ngram;
     }
 
-    public static String recursiveSequence(int size, int ngram, int x, int y) {
-        StringBuilder builder = new StringBuilder(size);
-        int module = pow(ENGLISH_ALPHABET_SIZE, ngram);
+    public static double correspondenceIndex(String text, int ngram, Alphabet alphabet) {
+        Collection<Double> frequencies = frequencies(text, ngram, alphabet).values();
 
-        int s_0 = x;
-        int s_1 = y;
-        for (int i = 0; i < size; i += ngram) {
-            int z = (s_0 + s_1) % module;
-            decompress(builder, z, ngram);
-
-            s_0 = s_1;
-            s_1 = z;
+        double index = 0.0;
+        for (Double frequency : frequencies) {
+            index += (frequency * (frequency - 1.0));
         }
 
-        return builder.toString();
+        return index / (text.length() * (text.length() - 1));
     }
 
-    public static String recursiveSequence(int size, int ngram) {
-        int x = ThreadLocalRandom.current().nextInt(pow(ENGLISH_ALPHABET_SIZE, ngram));
-        int y = ThreadLocalRandom.current().nextInt(pow(ENGLISH_ALPHABET_SIZE, ngram));
-        return recursiveSequence(size, ngram, x, y);
+    public static Map<String, Double> tailMap(Map<String, Double> map, int size) {
+        return map.entrySet()
+                .stream()
+                .sorted(Comparator.comparingDouble(Map.Entry::getValue))
+                .limit(size)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static String truncate(String text, int divisionFactor) {
-        return text.substring(0, text.length() - (text.length() % divisionFactor));
+    public static Set<String> tail(Map<String, Double> map, int size) {
+        return map.entrySet()
+                .stream()
+                .sorted(Comparator.comparingDouble(Map.Entry::getValue))
+                .limit(size)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
     }
 
-    private static int compress(String text, int offset, int ngram) {
-        int compressed = normalize(text.charAt(offset));
-        for (int i = 1; i < ngram; i++) {
-            compressed = compressed * ENGLISH_ALPHABET_SIZE + normalize(text.charAt(offset + i));
+    public static Map<String, Double> headMap(Map<String, Double> map, int size) {
+        Comparator<Map.Entry<String, Double>> comparator = Comparator.comparingDouble(Map.Entry::getValue);
+        return map.entrySet()
+                .stream()
+                .sorted(comparator.reversed())
+                .limit(size)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public static Set<String> head(Map<String, Double> map, int size) {
+        Comparator<Map.Entry<String, Double>> comparator = Comparator.comparingDouble(Map.Entry::getValue);
+        return map.entrySet()
+                .stream()
+                .sorted(comparator.reversed())
+                .limit(size)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+    }
+
+    private static Map<String, Double> getStringDoubleMap(double textLength, double ngram, Map<String, Long> countsMap) {
+        Map<String, Double> frequenciesMap = new HashMap<>();
+        double ngramNumber = textLength / ngram;
+        for (Map.Entry<String, Long> entry : countsMap.entrySet()) {
+            frequenciesMap.put(entry.getKey(), entry.getValue() / ngramNumber);
         }
-        return compressed;
+        return frequenciesMap;
     }
 
-    private static void decompress(StringBuilder builder, int compressed, int ngram) {
-        String appending = "";
-        for (int i = 0; i < ngram; i++) {
-            appending = denormalize((char) (compressed % ENGLISH_ALPHABET_SIZE)) + appending;
-            compressed = compressed / ENGLISH_ALPHABET_SIZE;
+    private static Map<String, Long> init(Alphabet alphabet, int ngram) {
+        Map<String, Long> map = new HashMap<>();
+        if (ngram == 1) {
+            for (int i = 0; i < alphabet.size(); i++) {
+                map.put(String.valueOf(alphabet.symbol(i)), 0L);
+            }
         }
-        builder.append(appending);
+        if (ngram == 2) {
+            for (int i = 0; i < alphabet.size(); i++) {
+                for (int j = 0; j < alphabet.size(); j++) {
+                    map.put(ComputeUtil.compose(alphabet.symbol(i), alphabet.symbol(j)), 0L);
+                }
+            }
+        }
+        return map;
     }
 }

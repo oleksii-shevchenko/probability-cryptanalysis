@@ -1,16 +1,15 @@
 package dev.flanker.criteria;
 
-import dev.flanker.util.FrequencyUtil;
-import dev.flanker.util.OrderingUtil;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.flanker.domain.Alphabet;
+import dev.flanker.util.TextUtil;
+
 public class ExtendedForbiddenNgramCriteria implements TextCriteria {
     private final Set<String> forbiddenNgram;
-
-    private final int ngram;
     private final int critical;
+    private final int ngram;
 
     private ExtendedForbiddenNgramCriteria(Set<String> forbiddenNgram, int ngram, int critical) {
         this.forbiddenNgram = forbiddenNgram;
@@ -34,9 +33,8 @@ public class ExtendedForbiddenNgramCriteria implements TextCriteria {
         return marked.size() >= critical;
     }
 
-    public static ExtendedForbiddenNgramCriteria getCriteria(String text, int ngram, int forbidden, int critical) {
-        Set<String> forbiddenNgram = OrderingUtil.tail(FrequencyUtil.frequencies(text, ngram), forbidden);
-
+    public static ExtendedForbiddenNgramCriteria getCriteria(String text, int ngram, int forbidden, int critical, Alphabet alphabet) {
+        Set<String> forbiddenNgram = TextUtil.tail(TextUtil.frequencies(text, ngram, alphabet), forbidden);
         return new ExtendedForbiddenNgramCriteria(forbiddenNgram, ngram, critical);
     }
 
