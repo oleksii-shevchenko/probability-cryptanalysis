@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 
 public final class FileUtil {
     private static final Pattern CLEAN_PATTERN = Pattern.compile("[^[a-z]]");
-    private static final Pattern CYRILLIC_CLEAN_PATTERN = Pattern.compile("^[[а-яё]]");
+    private static final Pattern CYRILLIC_CLEAN_PATTERN = Pattern.compile("[^[а-яё]]");
 
     private static final String EMPTY_CHAR = "";
 

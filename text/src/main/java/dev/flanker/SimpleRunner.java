@@ -53,7 +53,7 @@ public class SimpleRunner {
         String clean = FileUtil.cleanCyrillic(content);
         String origin = EncryptionUtil.truncate(clean, GCD);
 
-        FileUtil.write(origin, Paths.get("data/cleaned.txt"));
+        FileUtil.write(origin, Paths.get("data/cleaned-cyrillic.txt"));
         FileUtil.write(formatFrequencies(frequencies(origin, 1, alphabet)), Paths.get("data\\freq.csv"));
         FileUtil.write(formatBigramFrequencies(frequencies(origin, 2, alphabet), alphabet), Paths.get("data\\bifreq.csv"));
 

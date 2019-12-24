@@ -1,0 +1,20 @@
+EntropyCriteria[alphabet=dev.flanker.domain.Alphabet@18be83e4, entropy=4.469364540322797, bias=0.35, ngram=1]
+EntropyCriteria[alphabet=dev.flanker.domain.Alphabet@18be83e4, entropy=4.164213596559666, bias=0.25, ngram=2]
+ExtendedForbiddenNgramCriteria{forbiddenNgram=[פ, צ, ר, ש, ‎, ‏], ngram=1, critical=2}
+ExtendedForbiddenNgramCriteria{forbiddenNgram=[צצ, פז, פצ, פק, צי, ץי, פי, פש, ץû, ףû, ףü, פ‎], ngram=2, critical=6}
+ExtendedForbiddenNgramFrequenciesCriteria{forbiddenFrequencies={פ=0.0020666110161062885, צ=0.0036506849567683663, ר=0.008208662554754127, ש=0.003552948147856736, ‎=0.0034767257308438927, ‏=0.006369489395863581}, ngram=1, critical=3}
+ExtendedForbiddenNgramFrequenciesCriteria{forbiddenFrequencies={פ=0.0020666110161062885, ץ=0.009431294711516592, צ=0.0036506849567683663, ז=0.009554234093795373, ק=0.013770440209046126, ח=0.016109361956899913, ר=0.008208662554754127, ש=0.003552948147856736, י=0.012830568631524854, ü=0.018321656141006552, ‎=0.0034767257308438927, ‏=0.006369489395863581}, ngram=1, critical=6}
+ExtendedFrequentNgramCriteria{frequentNgram=[א, ע, ו, ט, ם, מ], ngram=1, critical=3}
+ExtendedFrequentNgramCriteria{frequentNgram=[סע, םמ, םא, מס, מג, ךמ, מע, םו, ום, דמ, עמ, ןמ], ngram=2, critical=6}
+ExtendedFrequentNgramFrequenciesCriteria{headFrequencies={א=0.07905739916819214, ע=0.06186494125341618, ו=0.08251752808242839, ט=0.06743839814902466, ם=0.06561643650365315, מ=0.11321118895905996}, ngram=1, critical=3}
+ExtendedFrequentNgramFrequenciesCriteria{headFrequencies={א=0.07905739916819214, נ=0.044276618527702545, ס=0.05249511623303898, ע=0.06186494125341618, ג=0.046575584976315726, ו=0.08251752808242839, ט=0.06743839814902466, ך=0.036728140455785464, כ=0.04572422975403518, ל=0.0317374162321784, ם=0.06561643650365315, מ=0.11321118895905996}, ngram=1, critical=6}
+ForbiddenNgramCriteria{forbiddenNgram=[פ, צ, ר, ש, ‎, ‏], ngram=1}
+ForbiddenNgramCriteria{forbiddenNgram=[צצ, פז, פצ, פק, צי, ץי, פי, פש, ץû, ףû, ףü, פ‎], ngram=2}
+ForbiddenNgramFrequenciesCriteria{forbiddenFrequencies={פ=0.0020666110161062885, צ=0.0036506849567683663, ר=0.008208662554754127, ש=0.003552948147856736, ‎=0.0034767257308438927, ‏=0.006369489395863581}, ngram=1}
+ForbiddenNgramFrequenciesCriteria{forbiddenFrequencies={צצ=0.0, פז=0.0, פצ=0.0, פק=0.0, צי=0.0, ץי=0.0, פי=0.0, פש=0.0, ץû=0.0, ףû=0.0, ףü=0.0, פ‎=0.0}, ngram=2}
+FrequentNgramCriteria{frequentNgram=[א, ע, ו, ט, ם, מ], ngram=1}
+FrequentNgramCriteria{frequentNgram=[סע, םמ, םא, מס, מג, ךמ, מע, םו, ום, דמ, עמ, ןמ], ngram=2}
+FrequentNgramFrequenciesCriteria{headFrequencies={א=0.07905739916819214, ע=0.06186494125341618, ו=0.08251752808242839, ט=0.06743839814902466, ם=0.06561643650365315, מ=0.11321118895905996}, ngram=1}
+FrequentNgramFrequenciesCriteria{headFrequencies={סע=0.013690529610564918, םמ=0.012214027629396773, םא=0.011633753745040932, מס=0.00989907906108735, מג=0.011326405289343984, ךמ=0.010757195949393233, מע=0.008863929462300024, םו=0.01007734116539158, ום=0.009953172389290013, דמ=0.009757698771466754, עמ=0.01615669361907724, ןמ=0.010339202049645382}, ngram=2}
+CorrespondenceCriteria[correspondenceIndex={10000=-9.444908690869088E-9, 100000=-6.698687627661287E-10, 100=-9.517171717171718E-5, 1000=-9.422802802802801E-7, 10=-0.009333333333333334}, bias={10000=1.0000000000000006E-11, 1000=1.0000000000000005E-9, 100000=1.0000000000000006E-12, 10=1.0000000000000004E-6, 100=1.5625000000000006E-8}, alphabet=dev.flanker.domain.Alphabet@18be83e4, ngram=1]
+CorrespondenceCriteria[correspondenceIndex={10000=-9.94548334833485E-9, 100000=-7.058217292094026E-10, 100=-9.866666666666658E-5, 1000=-9.943543543543539E-7, 10=-0.00888888888888889}, bias={10000=1.0000000000000006E-11, 1000=1.0000000000000005E-9, 100000=1.0000000000000006E-12, 10=1.0000000000000004E-6, 100=1.5625000000000006E-8}, alphabet=dev.flanker.domain.Alphabet@18be83e4, ngram=2]

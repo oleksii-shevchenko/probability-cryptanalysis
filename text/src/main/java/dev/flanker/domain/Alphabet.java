@@ -33,7 +33,11 @@ public class Alphabet {
     }
 
     public int code(char c) {
-        return encoding.get(c);
+        Integer integer = encoding.get(c);
+        if (integer == null) {
+            System.out.println(c);
+        }
+        return integer;
     }
 
     public char symbol(int code) {
