@@ -22,8 +22,8 @@ public final class FormatUtil {
 
     public static String formatBigramFrequencies(Map<String, Double> frequencies, Alphabet alphabet) {
         StringBuilder csv = new StringBuilder(",");
-        for (Character letter : alphabet.letters()) {
-            csv.append(letter).append(",");
+        for (int i = 0; i < alphabet.size(); i++) {
+            csv.append(alphabet.symbol(i)).append(",");
         }
         csv.replace(csv.length() - 1, csv.length(), "\n");
 
