@@ -41,7 +41,7 @@ public final class FileUtil {
     }
 
     public static void write(String content, Path path) {
-        try (Writer writer = new BufferedWriter(new FileWriter(path.toString()))) {
+        try (Writer writer = new BufferedWriter(new FileWriter(path.toString(), StandardCharsets.UTF_8))) {
             IOUtils.write(content, writer);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);

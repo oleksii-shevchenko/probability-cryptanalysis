@@ -61,4 +61,11 @@ public class Alphabet {
         }
         return mapping;
     }
+
+    @Override
+    public String toString() {
+        return "Alphabet{" +
+                "encoding=" + encoding +
+                '}';
+    }
 }

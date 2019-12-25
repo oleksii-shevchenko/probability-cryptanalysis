@@ -30,7 +30,6 @@ public class EntropyCriteria implements TextCriteria {
     @Override
     public String toString() {
         return new StringJoiner(", ", EntropyCriteria.class.getSimpleName() + "[", "]")
-                .add("alphabet=" + alphabet)
                 .add("entropy=" + entropy)
                 .add("bias=" + bias)
                 .add("ngram=" + ngram)

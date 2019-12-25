@@ -44,7 +44,6 @@ public class CorrespondenceCriteria implements TextCriteria {
         return new StringJoiner(", ", CorrespondenceCriteria.class.getSimpleName() + "[", "]")
                 .add("correspondenceIndex=" + correspondenceIndex)
                 .add("bias=" + bias)
-                .add("alphabet=" + alphabet)
                 .add("ngram=" + ngram)
                 .toString();
     }
